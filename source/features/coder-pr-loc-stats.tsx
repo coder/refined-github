@@ -2,6 +2,7 @@ import './coder-pr-loc-stats.css';
 import {onAbort} from 'abort-utils';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
+import {stringToUint8Array, uint8ArrayToHex} from 'uint8array-extras';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
@@ -46,8 +47,8 @@ function isCoderRepo(): boolean {
 
 // File containers and file-tree links use `diff-<sha256(path)>` anchors in both PR file views
 async function pathToDiffId(path: string): Promise<string> {
-	const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(path));
-	return 'diff-' + Array.from(new Uint8Array(digest), byte => byte.toString(16).padStart(2, '0')).join('');
+	const digest = await crypto.subtle.digest('SHA-256', stringToUint8Array(path));
+	return 'diff-' + uint8ArrayToHex(new Uint8Array(digest));
 }
 
 async function fetchGitattributesRules(): Promise<GitattributesRule[]> {
@@ -153,6 +154,10 @@ async function init(signal: AbortSignal): Promise<false | void> {
 		fetchGitattributesRules(),
 		fetchPrFiles(prNumber),
 	]);
+
+	if (signal.aborted) {
+		return;
+	}
 
 	const categorizedFiles = await Promise.all(files.map(async file => ({
 		file,

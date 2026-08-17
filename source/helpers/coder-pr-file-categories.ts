@@ -39,18 +39,11 @@ export function parseGitattributes(contents: string): GitattributesRule[] {
 }
 
 // Last matching rule wins, like git
-export function isGenerated(path: string, rules: GitattributesRule[]): boolean {
-	let generated = false;
-	for (const rule of rules) {
-		if (rule.regex.test(path)) {
-			generated = rule.generated;
-		}
-	}
-
-	return generated;
+function isGenerated(path: string, rules: GitattributesRule[]): boolean {
+	return rules.findLast(rule => rule.regex.test(path))?.generated ?? false;
 }
 
-const testFileRegex = /(?:_test\.go|\.test\.tsx?|\.spec\.tsx?|\.stories\.tsx?)$/;
+const testFileRegex = /(?:_test\.go|\.(?:test|spec|stories)\.tsx?)$/;
 const testDirectoriesRegex = /(?:^|\/)(?:testdata|testutil|coderdtest|e2e|testHelpers)\//;
 const otherRegex = /^(?:docs|\.github|helm|examples|scripts)\/|\.md$|^\./;
 
