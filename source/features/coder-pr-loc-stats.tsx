@@ -78,9 +78,7 @@ function updateHiddenFilesStyle(style: HTMLStyleElement, stats: Map<CoderFileCat
 	const hiddenIds = [...hiddenCategories].flatMap(category => stats.get(category)?.diffIds ?? []);
 	// Directory tree rows are ancestor `li`s of file rows, so match only the
 	// innermost `li` or hiding one file would hide its whole directory.
-	// In the React view each file sits in a classless wrapper div that owns its
-	// spacing, so also hide the diff's direct parent (never a multi-file
-	// container because of the direct-child combinator).
+	// React's classless file wrapper owns spacing, so hide it too; `>` prevents ancestor matches.
 	style.textContent = hiddenIds.length === 0
 		? ''
 		: hiddenIds
