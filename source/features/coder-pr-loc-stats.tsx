@@ -77,11 +77,18 @@ function updateHiddenFilesStyle(style: HTMLStyleElement, stats: Map<CoderFileCat
 	// `hiddenCategories` persists across PRs, so it may name categories absent from this PR
 	const hiddenIds = [...hiddenCategories].flatMap(category => stats.get(category)?.diffIds ?? []);
 	// Directory tree rows are ancestor `li`s of file rows, so match only the
-	// innermost `li` or hiding one file would hide its whole directory
+	// innermost `li` or hiding one file would hide its whole directory.
+	// In the React view each file sits in a classless wrapper div that owns its
+	// spacing, so also hide the diff's direct parent (never a multi-file
+	// container because of the direct-child combinator).
 	style.textContent = hiddenIds.length === 0
 		? ''
 		: hiddenIds
-			.flatMap(id => [`#${id}`, `li:not(:has(li)):has(a[href="#${id}"])`])
+			.flatMap(id => [
+				`#${id}`,
+				`#diff-content-parent div:has(> #${id})`,
+				`li:not(:has(li)):has(a[href="#${id}"])`,
+			])
 			.join(',\n') + '{display: none !important;}';
 }
 
