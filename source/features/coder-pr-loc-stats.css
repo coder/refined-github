@@ -1,0 +1,52 @@
+.rgh-coder-loc-stats {
+	position: fixed;
+	inset-block-end: 16px;
+	inset-inline-end: 16px;
+	z-index: 30;
+	max-width: 320px;
+	padding: 8px 12px;
+	font-size: 12px;
+	background: var(--bgColor-default, fuchsia);
+	border: 1px solid var(--borderColor-default, fuchsia);
+	border-radius: 6px;
+	box-shadow: var(--shadow-floating-small, var(--color-shadow-medium));
+}
+
+.rgh-coder-loc-stats summary {
+	cursor: pointer;
+	user-select: none;
+}
+
+.rgh-coder-loc-stats table {
+	margin-top: 8px;
+	border-spacing: 0;
+}
+
+.rgh-coder-loc-stats th {
+	font-weight: var(--base-text-weight-semibold, 600);
+	text-align: start;
+	color: var(--fgColor-muted, fuchsia);
+}
+
+.rgh-coder-loc-stats th,
+.rgh-coder-loc-stats td {
+	padding: 2px 0;
+	padding-inline-end: 12px;
+	white-space: nowrap;
+}
+
+.rgh-coder-loc-stats td:last-child,
+.rgh-coder-loc-stats th:last-child {
+	padding-inline-end: 0;
+}
+
+.rgh-coder-loc-stats label {
+	display: flex;
+	gap: 6px;
+	align-items: center;
+	cursor: pointer;
+}
+
+.rgh-coder-loc-count {
+	color: var(--fgColor-muted, fuchsia);
+}

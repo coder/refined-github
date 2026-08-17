@@ -31,6 +31,7 @@ const noScreenshotExceptions = new Set([
 	'monospace-textareas',
 	'new-tab-links',
 	'extensible-nav', // No visual or behavior change
+	'coder-pr-loc-stats', // Fork-only feature, no upstream screenshot
 
 	'hide-navigation-hover-highlight', // TODO: Add side-by-side GIF
 	'hide-inactive-deployments', // TODO: side-by-side PNG

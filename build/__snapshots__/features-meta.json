@@ -144,6 +144,12 @@
 		"screenshot": "https://github.com/user-attachments/assets/e972239b-6a28-42a4-9bac-fd71aa5a465f"
 	},
 	{
+		"id": "coder-pr-loc-stats",
+		"description": "Adds a LOC stats panel to the PR Files tab on <code>coder/coder</code> that groups changes into generated, tests, backend, frontend, and other, with checkboxes to show/hide each category.",
+		"css": true,
+		"screenshot": null
+	},
+	{
 		"id": "collapsible-content-button",
 		"description": "Adds a button in the text editor to insert collapsible content (via <code>&lt;details&gt;</code>).",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/260875648-bd495d27-4cd1-4190-bcc5-b8b476f07d39.png"
