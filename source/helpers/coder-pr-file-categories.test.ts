@@ -33,7 +33,7 @@ test.each(
 		['provisionerd/proto/version.go', 'backend'], // Linguist-generated=false wins
 		['nested/dir/foo.tfplan.json', 'generated'],
 		['site/src/api/typesGenerated.ts', 'generated'],
-		['site/e2e/google/protobuf/timestampGenerated.ts', 'tests'], // No linguist-generated attribute
+		['site/e2e/google/protobuf/timestampGenerated.ts', 'tests'],
 		['coderd/workspaces_test.go', 'tests'],
 		['coderd/testdata/parameters/groups/main.tf', 'tests'],
 		['testutil/duration.go', 'tests'],
