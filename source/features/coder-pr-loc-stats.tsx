@@ -229,4 +229,54 @@ Test URLs:
 https://github.com/coder/coder/pull/20000/files
 Large PR: https://github.com/coder/coder/pull/19998/files
 
+## OPEN BUG (as of 2026-08-18): unchecking a category still collapses the
+## inline "Add a comment on line …" composer in the React PR files view.
+
+Symptom: with a category hidden, the per-file diff DOM (including the inline
+comment composer) collapses/disappears, not just the file-tree rows.
+
+Fix history (all on mike/coder-pr-loc-stats):
+- a571e599: `:not(:has(li))` added so directory tree rows aren't hidden.
+- f085e858 + d2fc5be8: also hid the React view's per-file `li` wrapper —
+  this was WRONG and introduced the composer collapse.
+- df181e0c: stopped `display: none` on `#diff-<id>` containers; dim with
+  `opacity: 0.3` instead. Composer still collapsed.
+- a43d1393: root cause found in the *tree-row* rule: the structural selector
+  `li:not(:has(li)):has(a[href="#diff-…"])` was document-wide and also
+  matched the React view's per-file `li` wrappers (their header links to
+  `#diff-<hash>`). Now scoped to `li#file-tree-item-<diffId>` (classic view)
+  and `li[class*="file-tree-row"]` (React view; selector borrowed from
+  new-or-deleted-file.tsx and actionable-pr-view-file.tsx).
+
+Validation already done for a43d1393 (don't redo):
+- Classic view, live coder/coder#19998 via agent-browser (logged out):
+  new selector matches exactly the old set (tree rows only), directory rows
+  stay visible, diffs dim to 0.3.
+- React view: synthetic DOM harness only (file-wrapper `li` + composer +
+  tree rows). Old rule reproduced the collapse; new rule did not.
+- User reports the bug STILL reproduces with a bundle containing a43d1393
+  (verified: ~/repos/refined-github/distribution/assets/features/
+  coder-pr-loc-stats.js built 13:30 contains `file-tree-item-` and lacks the
+  old selector). So the React harness missed something about the real DOM.
+
+Untested hypotheses, roughly in order:
+1. Stale extension in the browser: Chrome keeps running the old content
+   script until the extension is reloaded (chrome://extensions → reload) AND
+   the page is refreshed. Rule this out FIRST: in DevTools on the PR page,
+   inspect the injected <style> element (search head for "file-tree-item-")
+   and confirm which selectors it actually contains.
+2. The real React view's file wrapper may itself match
+   `li[class*="file-tree-row"]` or contain no `li` descendants plus a
+   tree-like class, so the new selector still catches it. Verify by finding
+   the composer element and walking `getComputedStyle(el).display` up its
+   ancestor chain to identify exactly which element collapses and which CSS
+   rule matched it (DevTools → Elements → Computed → display → rule source).
+3. The collapse may not be CSS at all: GitHub's React view virtualizes /
+   re-renders; `opacity` on `#diff-<id>` is safe, but if the panel re-renders
+   or navigation soft-reloads, the composer may unmount for another reason.
+   Check whether the composer disappears even with the extension disabled
+   after toggling, or only when a category is toggled.
+Real-DOM verification needs a logged-in session (the React files view and
+inline composer are not served logged-out; agent-browser had no auth here).
+
 */
