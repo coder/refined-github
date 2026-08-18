@@ -81,10 +81,16 @@ function updateHiddenFilesStyle(style: HTMLStyleElement, stats: Map<CoderFileCat
 		return;
 	}
 
-	// Directory tree rows are ancestor `li`s of file rows, so match only the
-	// innermost `li` or hiding one file would hide its whole directory.
+	// Match only real file-tree rows: an unscoped `li:has(...)` also caught
+	// the React view's per-file `li` wrappers, collapsing their diffs and
+	// the inline comment composer along with them.
 	const treeRows = hiddenIds
-		.map(id => `li:not(:has(li)):has(a[href="#${id}"])`)
+		.flatMap(id => [
+			// Classic view; the row carries the id itself
+			`li#file-tree-item-${id}`,
+			// React view; `:not(:has(li))` skips ancestor directory rows
+			`li[class*="file-tree-row"]:not(:has(li)):has(a[href="#${id}"])`,
+		])
 		.join(',\n');
 	// `display: none` on the React view's diff containers broke its inline
 	// comment composer, so only dim diffs; never remove them from layout.
