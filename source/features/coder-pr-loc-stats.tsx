@@ -219,6 +219,10 @@ void features.add(import.meta.url, {
 	asLongAs: [isCoderRepo],
 	include: [pageDetect.isPRFiles],
 	exclude: [pageDetect.isPRFile404, pageDetect.isPRCommit],
+	// GitHub fires an extra navigation event when `/files` soft-redirects to
+	// the React `/changes` view, running `init` again before the first run
+	// is aborted and duplicating the panel.
+	deduplicate: '.rgh-coder-loc-stats',
 	init,
 });
 
