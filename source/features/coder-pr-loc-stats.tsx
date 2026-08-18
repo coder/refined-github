@@ -76,18 +76,23 @@ async function fetchPrFiles(prNumber: number): Promise<PrFile[]> {
 function updateHiddenFilesStyle(style: HTMLStyleElement, stats: Map<CoderFileCategory, CategoryStats>): void {
 	// `hiddenCategories` persists across PRs, so it may name categories absent from this PR
 	const hiddenIds = [...hiddenCategories].flatMap(category => stats.get(category)?.diffIds ?? []);
+	if (hiddenIds.length === 0) {
+		style.textContent = '';
+		return;
+	}
+
 	// Directory tree rows are ancestor `li`s of file rows, so match only the
 	// innermost `li` or hiding one file would hide its whole directory.
-	// React's classless file wrapper owns spacing, so hide it too; `>` prevents ancestor matches.
-	style.textContent = hiddenIds.length === 0
-		? ''
-		: hiddenIds
-			.flatMap(id => [
-				`#${id}`,
-				`#diff-content-parent div:has(> #${id})`,
-				`li:not(:has(li)):has(a[href="#${id}"])`,
-			])
-			.join(',\n') + '{display: none !important;}';
+	const treeRows = hiddenIds
+		.map(id => `li:not(:has(li)):has(a[href="#${id}"])`)
+		.join(',\n');
+	// `display: none` on the React view's diff containers broke its inline
+	// comment composer, so only dim diffs; never remove them from layout.
+	const diffs = hiddenIds
+		.map(id => `#${id}`)
+		.join(',\n');
+	style.textContent = `${treeRows} {display: none !important;}\n`
+		+ `${diffs} {opacity: 0.3;}`;
 }
 
 function buildPanel(stats: Map<CoderFileCategory, CategoryStats>, style: HTMLStyleElement): JSX.Element {
