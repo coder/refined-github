@@ -526,11 +526,6 @@
 		"screenshot": "https://user-images.githubusercontent.com/46634000/145016304-aec5a8b8-4cdb-48e6-936f-b214a3fb4b49.png"
 	},
 	{
-		"id": "netiquette",
-		"description": "Adds unobtrusive netiquette reminders (old closed issues, highly-active issues, draft PRs, …).",
-		"screenshot": "https://github.com/user-attachments/assets/8646d663-7458-4e6d-888a-68d38110fcda"
-	},
-	{
 		"id": "new-milestone-button",
 		"description": "Adds a 'New Milestone' button to the milestone page.",
 		"screenshot": "https://github.com/user-attachments/assets/1fceb336-6d32-4733-afe0-9971989b1987"

@@ -182,7 +182,8 @@ import './features/rgh-linkify-yolo.js';
 import './features/scrollable-areas.js';
 import './features/emphasize-draft-pr-label.js';
 import './features/file-age-color.js';
-import './features/netiquette.js';
+// `netiquette` removed in this fork: it mounts a banner inside the React
+// PR view's comment field wrapper, collapsing the inline comment composer.
 import './features/rgh-netiquette.js';
 import './features/small-user-avatars.js';
 import './features/releases-dropdown.js';
