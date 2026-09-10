@@ -130,7 +130,7 @@
 		"typescript": "npm:@typescript/typescript6@^6.0.2",
 		"unplugin-lightningcss": "^0.5.0",
 		"vite": "^8.2.1",
-		"vitest": "^4.1.10"
+		"vitest": "^4.1.11"
 	},
 	"overrides": {
 		"array-includes": "npm:@nolyfill/array-includes@^1",
