@@ -129,7 +129,7 @@
 		"typed-query-selector": "^2.12.2",
 		"typescript": "npm:@typescript/typescript6@^6.0.2",
 		"unplugin-lightningcss": "^0.5.0",
-		"vite": "^8.2.1",
+		"vite": "^8.3.4",
 		"vitest": "^4.1.10"
 	},
 	"overrides": {
