@@ -108,7 +108,7 @@
 		"fast-ignore": "^2.0.0",
 		"filenamify": "^7.0.2",
 		"globals": "^17.9.0",
-		"happy-dom": "^20.11.1",
+		"happy-dom": "^21.0.4",
 		"highlight.js": "^11.11.1",
 		"lightningcss": "^1.33.0",
 		"npm-run-all2": "^9.0.3",
